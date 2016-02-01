@@ -16,9 +16,8 @@ ADD nginx_service_http.ctmpl /templates/nginx_service_http.ctmpl
 
 RUN rm -v /etc/nginx/conf.d/*.conf; rm -v /var/log/nginx/*; exit 0
 
-RUN \ 
-  ln -s /proc/1/fd/1 /var/log/nginx/access.log 
-  ln -s /proc/1/fd/2 /var/log/nginx/error.log
+RUN ln -s /proc/1/fd/1 /var/log/nginx/access.log
+RUN ln -s /proc/1/fd/2 /var/log/nginx/error.log
 
 RUN chmod +x /bin/start.sh
 
