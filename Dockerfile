@@ -11,9 +11,15 @@ VOLUME /templates
 ENV CONSUL_URL consul:8500
 
 ADD start.sh /bin/start.sh
+ADD nginx.conf /etc/nginx/nginx.conf
 ADD nginx_service_http.ctmpl /templates/nginx_service_http.ctmpl
 
-RUN rm -v /etc/nginx/conf.d/*.conf; exit 0
+RUN rm -v /etc/nginx/conf.d/*.conf; rm -v /var/log/nginx/*; exit 0
+
+RUN \ 
+  ln -s /proc/1/fd/1 /var/log/nginx/access.log 
+  ln -s /proc/1/fd/2 /var/log/nginx/error.log
+
 RUN chmod +x /bin/start.sh
 
 ADD https://github.com/hashicorp/consul-template/releases/download/v0.7.0/consul-template_0.7.0_linux_amd64.tar.gz /usr/bin/
